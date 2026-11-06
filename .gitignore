@@ -1,2 +1,13 @@
 .env
 storage/
+.env
+*.swp
+node_modules/
+__pycache__/
+venv/
+.venv/
+storage/
+frontend/dist/
+EOF 
+
+exit
