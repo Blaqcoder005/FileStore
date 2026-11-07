@@ -12,3 +12,4 @@ EOF
 
 exit
 *.swp
+__pycache__/
