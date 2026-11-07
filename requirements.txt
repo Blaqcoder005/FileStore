@@ -35,8 +35,7 @@ multidict==6.7.1
 packaging==26.3
 pathvalidate==3.3.1
 pg8000==1.31.5
-# Editable install with no version control (pgcraft==0.1.0)
--e /home/dev/pgcraft
+pgcraft @ git+https://github.com/Blaqcoder005/pgcraft.git
 pillow @ file:///home/builder/.termux-build/python-pillow/src
 postgrest==2.31.0
 prompt_toolkit==3.0.53
