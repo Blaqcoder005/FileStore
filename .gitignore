@@ -11,3 +11,4 @@ frontend/dist/
 EOF 
 
 exit
+*.swp
