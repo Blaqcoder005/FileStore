@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { UserPlus } from "lucide-react";
 import	{ apiFetch } from "../services/api";
-// import "../styles/login.css";
 import { useAuth } from "../context/AuthContext";
 
 
@@ -53,17 +53,22 @@ export default function Register() {
       setLoading(false);
     }
   };
-
-  return (
-  <div className="min-h-screen bg-slate-900 flex items-center justify-center px-4">
+return (
+  <div className="min-h-screen bg-dark flex items-center justify-center px-4">
     <form
       onSubmit={handleSubmit}
-      className="w-full max-w-md bg-slate-800 rounded-2xl p-8 shadow-2xl flex flex-col gap-4"
+      className="w-full max-w-md bg-white rounded-2xl p-8 shadow-2xl flex flex-col gap-4"
     >
-      <h2 className="text-3xl font-bold text-white text-center">Register</h2>
+      <div className="flex flex-col items-center gap-2 mb-2">
+        <div className="p-3 rounded-2xl bg-tint/50">
+          <UserPlus className="w-8 h-8 text-primary" strokeWidth={1.75} />
+        </div>
+        <h2 className="text-3xl font-bold text-ink">Create account</h2>
+        <p className="text-sm text-ink/60">Start storing your files</p>
+      </div>
 
       {error && (
-        <div className="bg-red-500/20 border border-red-500 text-red-400 px-4 py-3 rounded-lg text-sm">
+        <div className="bg-red-50 border border-red-300 text-red-700 px-4 py-3 rounded-lg text-sm">
           {error}
         </div>
       )}
@@ -71,49 +76,52 @@ export default function Register() {
       <input
         type="text"
         placeholder="Username"
+        autoComplete="username"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
         required
-        className="w-full bg-slate-900 border border-slate-600 rounded-lg px-4 py-3 text-white placeholder-slate-400
-focus:outline-none focus:border-teal-500"
+        className="w-full bg-surface border border-tint rounded-lg px-4 py-3 text-ink placeholder-ink/40
+focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/30"
       />
 
       <input
         type="email"
         placeholder="Email"
+        autoComplete="email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         required
-        className="w-full bg-slate-900 border border-slate-600 rounded-lg px-4 py-3 text-white placeholder-slate-400
-focus:outline-none focus:border-teal-500"
+        className="w-full bg-surface border border-tint rounded-lg px-4 py-3 text-ink placeholder-ink/40
+focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/30"
       />
 
       <input
         type="password"
         placeholder="Password"
+        autoComplete="new-password"
+        minLength={8}
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         required
-        className="w-full bg-slate-900 border border-slate-600 rounded-lg px-4 py-3 text-white placeholder-slate-400
-focus:outline-none focus:border-teal-500"
+        className="w-full bg-surface border border-tint rounded-lg px-4 py-3 text-ink placeholder-ink/40
+focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/30"
       />
 
       <button
         type="submit"
         disabled={loading}
-        className="w-full bg-teal-600 hover:bg-teal-700 text-white font-semibold py-3 rounded-lg transition-colors
+        className="w-full bg-primary hover:bg-primary-hover text-white font-semibold py-3 rounded-lg transition-colors
 disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        {loading ? "Submitting…" : "Register"}
+        {loading ? "Creating account..." : "Register"}
       </button>
 
-      <p className="text-slate-400 text-sm text-center">
+      <p className="text-ink/60 text-sm text-center">
         Already have an account?{" "}
-        <a href="/login" className="text-teal-400 hover:text-teal-300">
-          Login
-        </a>
+        <Link to="/login" className="text-primary font-medium hover:text-primary-hover">
+          Sign in
+        </Link>
       </p>
     </form>
   </div>
- );
-}
+);
