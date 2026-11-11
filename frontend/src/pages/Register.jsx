@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { UserPlus } from "lucide-react";
-import	{ apiFetch } from "../services/api";
 import { useAuth } from "../context/AuthContext";
 
 
@@ -26,7 +25,7 @@ export default function Register() {
       formData.append("email", email);
       formData.append("password", password);
 
-      const res = await apiFetch("/auth/register", {
+      const res = await fetch("/api/auth/register", {
         method: "POST",
         body: formData,
         credentials: "include",
