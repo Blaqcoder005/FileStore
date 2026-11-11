@@ -124,4 +124,6 @@ disabled:opacity-50 disabled:cursor-not-allowed"
       </p>
     </form>
   </div>
-);
+ );
+}
+
