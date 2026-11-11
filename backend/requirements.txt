@@ -9,3 +9,4 @@ filetype==1.2.0
 pathvalidate==3.3.1
 pg8000==1.31.5
 pgcraft @ git+https://github.com/Blaqcoder005/pgcraft.git
+scramp==1.4.17
