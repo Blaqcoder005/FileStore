@@ -10,12 +10,11 @@ from fastapi.middleware.httpsredirect import HTTPSRedirectMiddleware
 from starlette.middleware.base import BaseHTTPMiddleware
 from fastapi.middleware.cors import CORSMiddleware
 
-from config import SECRET_KEY
+from config import SECRET_KEY, allowed_origins
 #from worker import send_email_task
 from routes import auth, files
 from starlette.middleware.sessions import SessionMiddleware
 #from session_guard import SessionGuardMiddleware
-
 
 app = FastAPI(
     docs_url=None,
@@ -35,7 +34,7 @@ app.add_middleware(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+    allow_origins=[allowed_origins],
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE", "PATCH"],
     allow_headers=["Content-Type", "Authorization"],
