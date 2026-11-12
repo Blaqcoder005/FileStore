@@ -1,63 +1,72 @@
 import { useState } from "react";
 import { uploadFile } from "../services/client";
-import Modal from "./Modal";
+import Modal from "./modals/Modal";
 
-export default function FileImport({ onUploadDone }) {
+export default function FileImport({ onClose, onUploaded }) {
   const [dragging, setDragging] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [error, setError] = useState("");
 
-{/*  const uploadFile = async (file) => {
-    if (!file) return;
-    const formData = new FormData();
-    formData.append("file", file);
-
-    const res = await fetch("/api/upload", {
-      method: "POST",
-      body: formData,
-      credentials: "include",
-    });
-
-    const data = await res.json();
-    if (data.success && onUploadDone) {
-      onUploadDone(data.file);
+  const handleFile = async (file) => {
+    if (!file || loading) return;
+    setLoading(true);
+    setError("");
+    try {
+      await uploadFile(file, null, setProgress);
+      onUploaded?.();
+      onClose();
+    } catch (err) {
+      const detail = err.response?.data?.detail;
+      setError(typeof detail === "string" ? detail : "Upload failed");
+    } finally {
+      setLoading(false);
+      setProgress(0);
     }
-  };*/}
+  };
 
   const onDrop = (e) => {
     e.preventDefault();
     setDragging(false);
-    const file = e.dataTransfer.files[0];
-    if (file) uploadFile(file);
+    handleFile(e.dataTransfer.files[0]);
+  };
+
+  const safeClose = () => {
+    if (!loading) onClose();
   };
 
   return (
-    
-    <Modal 
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60" 
-      title="Upload file
-      onClose={onClose}
-    >
-     <div
-       onDragOver={(e) => {
-         e.preventDefault();
-         setDragging(true);
-       }}
-       onDragLeave={() => setDragging(false)}
-       onDrop={onDrop}
-       className={`w-[90%] max-w-md rounded-xl border-2 border-dashed bg-dark p-10 text-center text-white mb-30 border-2 border-dashed p-10 rounded-xl text-center ${
-         dragging ? "border-primary bg-primary/10" : ""
-       }`}
-     >
-       <input
-         type="file"
-         onChange={(e) => uploadFile(e.target.files[0])}
-         hidden
-         id="fileInput"
-       />
-       <label htmlFor="fileInput" className="cursor-pointer">
-         Drop file here or click to upload
-       </label>
+    <Modal title="Upload file" onClose={safeClose}>
+      {error && (
+        <div className="mb-3 bg-red-50 border border-red-300 text-red-700 px-3 py-2 rounded-lg text-sm">
+          {error}
+        </div>
+      )}
+
+      <div
+        onDragOver={(e) => {
+          e.preventDefault();
+          setDragging(true);
+        }}
+        onDragLeave={() => setDragging(false)}
+        onDrop={onDrop}
+        className={`rounded-xl border-2 border-dashed bg-dark p-10 text-center text-white ${
+          dragging ? "border-primary bg-primary/10" : "border-tint/40"
+        }`}
+      >
+        <input
+          type="file"
+          id="fileInput"
+          hidden
+          onChange={(e) => {
+            handleFile(e.target.files[0]);
+            e.target.value = "";
+          }}
+        />
+        <label htmlFor="fileInput" className="cursor-pointer">
+          {loading ? `Uploading... ${progress}%` : "Drop file here or tap to choose"}
+        </label>
       </div>
-     </Modal>
+    </Modal>
   );
 }
