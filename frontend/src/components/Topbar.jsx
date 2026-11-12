@@ -10,7 +10,7 @@ export default function Topbar() {
 
   return (
     <div className="flex flex-col w-full">
-      <div className="flex items-center border-b border-teal-100 bg-dark text-white px-4 py-3" onClick={onClose}>
+      <div className="flex items-center border-b border-teal-100 bg-dark text-white px-4 py-3">
 	<button
 	  onClick={() => setActiveModal("upload")}
 	  className="flex items-center gap-2 bg-primary hover:bg-primary-hover text-white rounded-lg px-4 py-2"

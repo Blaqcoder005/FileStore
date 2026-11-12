@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { uploadFile } from "../services/client";
+import Modal from "./Modal";
 
-export default function FileImport({ onUploadDone }, onClose) {
+export default function FileImport({ onUploadDone }) {
   const [dragging, setDragging] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -10,7 +11,7 @@ export default function FileImport({ onUploadDone }, onClose) {
     const formData = new FormData();
     formData.append("file", file);
 
-    const res = await fetch("http://localhost:8000/upload", {
+    const res = await fetch("/api/upload", {
       method: "POST",
       body: formData,
       credentials: "include",
@@ -31,8 +32,10 @@ export default function FileImport({ onUploadDone }, onClose) {
 
   return (
     
-    <div 
+    <Modal 
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/60" 
+      title="Upload file
+      onClose={onClose}
     >
      <div
        onDragOver={(e) => {
@@ -55,6 +58,6 @@ export default function FileImport({ onUploadDone }, onClose) {
          Drop file here or click to upload
        </label>
       </div>
-     </div>
+     </Modal>
   );
 }

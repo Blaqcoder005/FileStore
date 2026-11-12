@@ -11,6 +11,8 @@ export default function Dashboard() {
   const [folder, setFolder] = useState([]);
   const [files, setFiles] = useState([]);
   const { user } = useAuth()
+  const [activeModal, setActiveModal] = useState(null);
+  const closeModal = () => setActiveModal(null)
 
   const handleDownload = (file) => {
     window.location.href = `/api/files/download/${file.id}`;

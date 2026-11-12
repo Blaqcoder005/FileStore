@@ -6,11 +6,18 @@ import { useAuth } from "../context/AuthContext"; // adjust path to wherever thi
 
 export default function Layout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { user } = useAuth()
+  const { user } = useAuth();
+  const [activeModal, setActiveModal] = useState(null);
+  const closeModal = () => setActiveModal(null)
+
   return (
     <div className="flex min-h-screen bg-surface text-ink">
       <div className="flex flex-1 flex-col">
-        <Topbar />
+        <Topbar onUpload={() => setActiveModal("upload")} />
+
+        {activeModal === "upload" && (
+          <UploadModal onClose={closeModal} onUploaded={refreshFiles} />
+        )}
       </div>
     </div>
   );
