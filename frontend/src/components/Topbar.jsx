@@ -7,6 +7,8 @@ import { Upload, Download, Trash2 } from "lucide-react";
 export default function Topbar() {
   const [uploadOpen, setUploadOpen] = useState(false);
   const { user } = useAuth();
+  const [activeModal, setActiveModal] = useState(null);
+  const closeModal = () => setActiveModal(null);
 
   return (
     <div className="flex flex-col w-full">
