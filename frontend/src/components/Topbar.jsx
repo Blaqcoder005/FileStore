@@ -6,7 +6,6 @@ import { Upload, Download, Trash2 } from "lucide-react";
 
 export default function Topbar() {
   const [uploadOpen, setUploadOpen] = useState(false);
-  const onClose = useState(true);
   const { user } = useAuth();
 
   return (
