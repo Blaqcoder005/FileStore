@@ -1,18 +1,15 @@
 import { useEffect, useState } from "react";
-// import "../styles/dashboard.css";
-import { apiFetch } from "../services/api";
-import Topbar from "../components/Topbar";
+import { useOutletContext } from "react-router-dom";
+import { Folder } from "lucide-react";
 import { api, listFiles } from "../services/client";
 import { useAuth } from "../context/AuthContext";
 import FileTile from "../components/FileTile";
 
-
 export default function Dashboard() {
   const [folder, setFolder] = useState([]);
   const [files, setFiles] = useState([]);
-  const { user } = useAuth()
-  const [activeModal, setActiveModal] = useState(null);
-  const closeModal = () => setActiveModal(null)
+  const { user } = useAuth();
+  const { refreshKey } = useOutletContext();
 
   const handleDownload = (file) => {
     window.location.href = `/api/files/download/${file.id}`;
@@ -20,8 +17,13 @@ export default function Dashboard() {
 
   const handleDelete = async (file) => {
     if (!window.confirm(`Delete ${file.name}?`)) return;
-    await api.delete(`/files/files/${file.id}`);
-    setFiles((prev) => prev.filter((x) => x.id !== file.id));
+    try {
+      await api.delete(`/files/files/${file.id}`);
+      setFiles((prev) => prev.filter((x) => x.id !== file.id));
+    } catch (err) {
+      console.error("delete failed", err);
+      alert("Could not delete the file.");
+    }
   };
 
   useEffect(() => {
@@ -29,23 +31,20 @@ export default function Dashboard() {
 
     listFiles(null)
       .then((data) => {
-        console.log("list data:", data);
-        if (cancelled) return;
-        setFiles(data)
+        if (!cancelled) setFiles(data);
       })
       .catch((err) => console.error("list failed", err));
 
     return () => { cancelled = true; };
-  }, []);
-
-  console.log({ files });
+  }, [refreshKey]);
 
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3x1 text-ink font-bold">Dashboard</h1>
+        <h1 className="text-3xl text-ink font-bold">Dashboard</h1>
         <span className="px-4 py-2 rounded bg-tint">Welcome, {user?.username}</span>
       </div>
+
       <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2">
         {folder.map((f) => (
           <div key={f.id} className="flex flex-col items-center gap-2 p-3 rounded-xl hover:bg-tint/40">
@@ -62,4 +61,3 @@ export default function Dashboard() {
     </div>
   );
 }
-
