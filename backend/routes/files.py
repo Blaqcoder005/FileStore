@@ -68,6 +68,8 @@ async def upload_file(
         dest.unlink(missing_ok=True)
         raise
 
+    db.cache_invalidate("files")
+
     return {"success": "True"}
 
 @router.get("/download/{file_id}")
