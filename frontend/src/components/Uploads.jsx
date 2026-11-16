@@ -2,7 +2,7 @@ import { useState } from "react";
 import { uploadFile } from "../services/client";
 import Modal from "./modals/Modal";
 
-export default function FileImport({ onClose, onUploaded }) {
+export default function Upload({ onClose, onUploaded }) {
   const [dragging, setDragging] = useState(false);
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import Topbar from "./Topbar";
-import Modal from "./modals/Modal";
+import Upload from "./Uploads";
 
 export default function Layout() {
   const [activeModal, setActiveModal] = useState(null);
@@ -17,7 +17,7 @@ export default function Layout() {
       </main>
 
       {activeModal === "upload" && (
-        <Modal
+        <Upload
           onClose={closeModal}
           onUploaded={() => setRefreshKey((k) => k + 1)}
         />
